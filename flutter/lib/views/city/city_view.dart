@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:testflutter/views/activity_form/activity_form_view.dart';
 
 import '../../models/activity_model.dart';
 import '../../models/city_model.dart';
@@ -147,6 +148,15 @@ class _CityState extends State<CityView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Organisation voyage'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, ActivityFormView.routeName,
+                  arguments: city.name);
+            },
+            icon: const Icon(Icons.add),
+          )
+        ],
       ),
       drawer: const DymaDrawer(),
       body: Column(

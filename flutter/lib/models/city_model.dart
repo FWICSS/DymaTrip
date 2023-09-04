@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'activity_model.dart';
 
 class City {
@@ -15,7 +17,9 @@ class City {
 
   City.fromJson(Map<String, dynamic> json)
       : id = json['_id'],
-        image = json['image'],
+        image = Platform.isAndroid
+            ? json['image'].replaceAll('localhost', '10.0.2.2')
+            : json['image'],
         name = json['name'],
         activities = (json['activities'] as List)
             .map((activityJson) => Activity.fromJson(activityJson))

@@ -9,7 +9,8 @@ import '../models/activity_model.dart';
 import '../models/trip_model.dart';
 
 class TripProvider extends ChangeNotifier {
-  final String host = 'localhost';
+  final String host = '10.0.2.2';
+  final String hostIOS = 'localhost';
   List<Trip> _trips = [];
   bool isLoading = false;
 
@@ -18,7 +19,8 @@ class TripProvider extends ChangeNotifier {
   Future<void> fetchData() async {
     try {
       isLoading = true;
-      http.Response response = await http.get(Uri.http(host, '/api/trips'));
+      http.Response response = await http
+          .get(Uri.http((Platform.isAndroid ? host : hostIOS), '/api/trips'));
       if (response.statusCode == 200) {
         _trips = (json.decode(response.body) as List)
             .map((tripJson) => Trip.fromJson(tripJson))

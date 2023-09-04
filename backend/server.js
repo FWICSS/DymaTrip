@@ -15,7 +15,7 @@ const dbpassword = process.env.DB_PASSWORD;
 
 mongoose
     .connect(
-        `mongodb+srv://${dbusername}:${dbpassword}@cluster0-urpjt.gcp.mongodb.net/dymatrip?retryWrites=true&w=majority` // version web
+        `mongodb+srv://${dbusername}:${dbpassword}@cluster0.yygl6zd.mongodb.net/dymatrip?retryWrites=true&w=majority` // version web
         // "mongodb+srv://jean:123@cluster0-urpjt.gcp.mongodb.net/dymatrip_emu?retryWrites=true&w=majority" // version avec emulateur
     )
     .then(() => console.log('connexion ok !'));
@@ -62,5 +62,39 @@ app.put('/api/trip', async (req, res) => {
     res.status(500).json(e);
   }
 });
+
+// add activity to a city
+app.post('/api/city/:cityId/activity', async (req, res) => {
+  try {
+    console.log('req.body', req.body);
+    const cityId = req.params.cityId;
+    const activity = req.body;
+    const city = await City.findOneAndUpdate(
+        {_id: cityId},
+        {$push: {activities: activity}},
+        {
+          new: true,
+        }
+    ).exec();
+    res.json(city);
+  } catch (e) {
+    res.status(500).json(e);
+  }
+});
+
+// verify uniqueness of a trip
+app.get(
+    '/api/city/:cityId/activities/verify/:activityName',
+    async (req, res) => {
+      const {cityId, activityName} = req.params;
+      const city = await City.findById(cityId).exec();
+      const index = city.activities.findIndex(
+          (activity) => activity.name === activityName
+      );
+      index === -1
+          ? res.json('Ok')
+          : res.status(400).json('L’activité existe déjà');
+    }
+);
 
 app.listen(80);

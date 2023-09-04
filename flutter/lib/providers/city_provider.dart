@@ -1,13 +1,16 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/activity_model.dart';
 import '../models/city_model.dart';
 
 class CityProvider extends ChangeNotifier {
-  final String host = 'localhost';
+  final String host = '10.0.2.2';
+  final String hostIOS = 'localhost';
   List<City> _cities = [];
   bool isLoading = false;
 
@@ -19,7 +22,8 @@ class CityProvider extends ChangeNotifier {
   Future<void> fetchData() async {
     try {
       isLoading = true;
-      http.Response response = await http.get(Uri.http(host, '/api/cities'));
+      http.Response response = await http
+          .get(Uri.http((Platform.isAndroid ? host : hostIOS), '/api/cities'));
       if (response.statusCode == 200) {
         _cities = (json.decode(response.body) as List)
             .map((cityJson) => City.fromJson(cityJson))
@@ -30,6 +34,42 @@ class CityProvider extends ChangeNotifier {
     } catch (e) {
       isLoading = false;
       rethrow;
+    }
+  }
+
+  Future<void> addActivityToCity(Activity newActivity) async {
+    try {
+      String cityId = getCityByName(newActivity.city).id!;
+      http.Response response = await http.post(
+          Uri.http(Platform.isAndroid ? host : hostIOS,
+              '/api/city/${cityId}/activity'),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode(newActivity.toJson()));
+      if (response.statusCode == 200) {
+        print("send");
+        int index = cities.indexWhere((city) => city.id == cityId);
+        _cities[index] = City.fromJson(json.decode(response.body));
+        notifyListeners();
+      }
+    } catch (e) {
+      print("error $e");
+    }
+  }
+
+  Future<dynamic> checkIfActivityNameIsUnique(
+      String cityName, String activityName) async {
+    try {
+      String cityId = getCityByName(cityName).id!;
+      http.Response response = await http.get(Uri.http(
+          Platform.isAndroid ? host : hostIOS,
+          '/api/city/${cityId}/activities/verify/${activityName}'));
+      if (response.body != 200) {
+        return json.decode(response.body);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print("error $e");
     }
   }
 }

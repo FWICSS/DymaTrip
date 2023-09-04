@@ -7,7 +7,7 @@ const dbpassword = process.env.DB_PASSWORD;
 
 mongoose
     .connect(
-        `mongodb+srv://${dbusername}:${dbpassword}@cluster0-urpjt.gcp.mongodb.net/dymatrip?retryWrites=true&w=majority`
+        `mongodb+srv://${dbusername}:${dbpassword}@cluster0.yygl6zd.mongodb.net/dymatrip?retryWrites=true&w=majority`
     )
     .then(() => {
       Promise.all([
