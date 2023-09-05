@@ -16,18 +16,21 @@ class CityCard extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              Ink.image(
-                image: NetworkImage(city.image),
-                fit: BoxFit.cover,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/city',
-                      arguments: city.name,
-                    );
-                  },
+              GestureDetector(
+                child: Hero(
+                  tag: city.name,
+                  child: Image.network(
+                    city.image,
+                    fit: BoxFit.cover,
+                  ),
                 ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/city',
+                    arguments: city.name,
+                  );
+                },
               ),
               Positioned(
                 top: 10,

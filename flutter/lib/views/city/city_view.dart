@@ -165,7 +165,8 @@ class _CityState extends State<CityView> {
               cityName: city.name,
               mytrip: mytrip,
               setDate: setDate,
-              amount: amount),
+              amount: amount,
+              cityImage: city.image),
           Expanded(
             child: index == 0
                 ? ActivityList(
