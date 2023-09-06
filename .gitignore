@@ -42,7 +42,7 @@ flutter_app/.pub-cache/
 flutter_app/.pub/
 flutter_app/build/
 
-flutter_app/lib/api/google_api_key.dart
+/flutter_app/lib/api/google_api_key.dart
 
 # Symbolication related
 flutter_app/app.*.symbols
