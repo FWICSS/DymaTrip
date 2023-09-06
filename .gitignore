@@ -19,7 +19,7 @@ flutter_app/.buildlog/
 flutter_app/.history
 flutter_app/.svn/
 flutter_app/migrate_working_dir/
-
+flutter_app/*.env
 # IntelliJ related
 flutter/*.iml
 flutter/*.ipr
