@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:testflutter/views/activity_form/widget/activity_form_image_picker.dart';
 
+import '../../../api/google_api.dart';
 import '../../../models/activity_model.dart';
 import '../../../providers/city_provider.dart';
 import 'activity_form_autocomplete.dart';
@@ -107,6 +109,46 @@ class _ActivityFormState extends State<ActivityForm> {
     }
   }
 
+  void _getCurrentLocation() async {
+    Location location = new Location();
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    _serviceEnabled = await location.serviceEnabled();
+
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    if (_permissionGranted == PermissionStatus.granted &&
+        _serviceEnabled == true) {
+      try {
+        LocationData userLocation = await location.getLocation();
+        String? address = await GetAddressFromLatLng(
+            lat: userLocation.latitude!, lng: userLocation.longitude!);
+        if (address != null) {
+          _newActivity.location = LocationActivity(
+              address: address,
+              longitude: userLocation.longitude,
+              latitude: userLocation.latitude);
+          setState(() {
+            _addressController.text = address;
+          });
+        }
+      } catch (e) {
+        rethrow;
+      }
+    }
+  }
+
   // Future<LocationActivity> showInputAutocomplete() {}
 
   @override
@@ -169,6 +211,22 @@ class _ActivityFormState extends State<ActivityForm> {
                 border: OutlineInputBorder(),
               ),
               onSaved: (value) => _newActivity.location!.address = value!,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextButton(
+              onPressed: () => _getCurrentLocation(),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.gps_fixed),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text('Utilisiser ma position actuelle')
+                ],
+              ),
             ),
             const SizedBox(
               height: 30,

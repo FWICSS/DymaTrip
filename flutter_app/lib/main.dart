@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:testflutter/views/activity_form/activity_form_view.dart';
 
@@ -10,7 +11,8 @@ import 'views/not-found/not_found.dart';
 import 'views/trip/trip_view.dart';
 import 'views/trips/trips_view.dart';
 
-main() {
+Future main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const DymaTrip());
 }
 

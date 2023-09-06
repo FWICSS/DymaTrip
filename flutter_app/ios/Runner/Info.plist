@@ -33,6 +33,10 @@
     <string>We might need picture for activity</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>We might need picture for activity</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need current Location for activity</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>We need current Location for activity</string>
 
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
