@@ -38,6 +38,13 @@
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>We need current Location for activity</string>
 
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>sms</string>
+      <string>tel</string>
+      <string>https</string>
+    </array>
+
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

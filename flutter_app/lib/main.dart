@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:testflutter/views/activity_form/activity_form_view.dart';
+import 'package:testflutter/views/google_map/google_map_view.dart';
 
 import './views/home/home_view.dart';
 import 'providers/city_provider.dart';
@@ -49,6 +50,7 @@ class _DymaTripState extends State<DymaTrip> {
           TripsView.routeName: (_) => const TripsView(),
           TripView.routeName: (_) => const TripView(),
           ActivityFormView.routeName: (_) => ActivityFormView(),
+          GoogleMapsView.routeName: (_) => const GoogleMapsView(),
         },
         onUnknownRoute: (_) => MaterialPageRoute(
           builder: (_) => const NotFound(),

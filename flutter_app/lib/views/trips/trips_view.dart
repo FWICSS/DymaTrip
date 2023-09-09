@@ -13,7 +13,7 @@ class TripsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TripProvider tripProvider = Provider.of<TripProvider>(context);
+    TripProvider tripProvider = Provider.of<TripProvider>(context,listen: true);
     return DefaultTabController(
       length: 2,
       child: Scaffold(

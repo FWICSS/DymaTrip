@@ -37,7 +37,7 @@ class TripProvider extends ChangeNotifier {
   Future<void> addTrip(Trip trip) async {
     try {
       http.Response response = await http.post(
-        Uri.http(host, '/api/trip'),
+        Uri.http(Platform.isAndroid ? host : hostIOS, '/api/trip'),
         body: json.encode(
           trip.toJson(),
         ),
@@ -80,5 +80,11 @@ class TripProvider extends ChangeNotifier {
 
   Trip getById(String id) {
     return trips.firstWhere((trip) => trip.id == id);
+  }
+
+  Activity getActivityByIds(String activityId, String tripId) {
+    return getById(tripId).activities.firstWhere((activity) {
+      return activity.id == activityId;
+    });
   }
 }

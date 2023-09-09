@@ -47,4 +47,9 @@ class Trip {
       };
     }
   }
+
+  @override
+  String toString() {
+    return 'Trip{id: $id, city: $city, activities: $activities, date: $date}';
+  }
 }

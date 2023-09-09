@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../models/city_model.dart';
 import '../../providers/city_provider.dart';
+import '../../providers/trip_provider.dart';
 import '../../widgets/dyma_drawer.dart';
 import '../../widgets/dyma_loader.dart';
 import 'widgets/city_card.dart';

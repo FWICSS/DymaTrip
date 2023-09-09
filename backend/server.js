@@ -56,6 +56,7 @@ app.get('/api/trips', async (req, res) => {
 });
 
 app.post('/api/trip', async (req, res) => {
+  console.log("send trip")
   try {
     const body = req.body;
     const trip = await new Trip(body).save();
